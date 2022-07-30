@@ -22,7 +22,20 @@ let con = can.getContext("2d");
 can.width  = CANVAS_W;
 can.height = CANVAS_H;
 
+//フィールド
+let vcan = document.createElement("canvas")
+let vcon = vcan.getContext("2d");
+vcan.width  = FIELD_W;
+vcan.height = FIELD_H;
 
+//カメラの座標
+let camera_x = 0;
+let camera_y = 0;
+
+//星の実体
+let star = [];
+
+//整数のランダムを作る
 function rand(min, max)
 {
   return Math.floor( Math.random()*(max-min+1) )+min;
@@ -42,8 +55,13 @@ class Star
 
   draw()
   {
-    con.fillStyle = (rand(0.2)!=0)?"#66f":"#8af";
-    con.fillRect(this.x>>8, this.y>>8,this.sz,this.sz);
+    let x=this.x>>8;
+    let y=this.y>>8;
+    if(x<camera_x || x>=camera_x + SCREEN_W
+      || y<camera_y || y>=camera_y + SCREEN_H)return;
+
+    vcon.fillStyle = (rand(0,2)!=0)?"#66f":"#8af";
+    vcon.fillRect(this.x>>8, this.y>>8,this.sz,this.sz);
   }
 
   update()
@@ -58,12 +76,15 @@ class Star
   }
 }
 
-let star = [];
-for(let i = 0;i<STAR_MAX; i++)star[i]= new Star();
 
 
+//初期化
 
-setInterval( gameLoop , GAME_SPEED );
+function gameInit()
+{
+  for(let i = 0;i<STAR_MAX; i++)star[i]= new Star();
+  setInterval( gameLoop , GAME_SPEED );
+}
 
 //ゲームループ
 function gameLoop()
@@ -74,11 +95,20 @@ function gameLoop()
 
    
   //描画の処理
-  con.fillStyle="black";
-  con.fillRect(0,0,SCREEN_W,SCREEN_H);
+
+  vcon.fillStyle="black";
+  vcon.fillRect(0,0,SCREEN_W,SCREEN_H);
 
   for(let i = 0;i<STAR_MAX; i++)star[i].draw();
 
+  //キャンバスにコピー
+  con.drawImage( vcan, camera_x,camera_y,SCREEN_W,SCREEN_H,
+    0,0,CANVAS_W,CANVAS_H);
 
+}
 
+//オンロードでゲーム開始
+window.onload=function()
+{
+  gameInit();
 }
