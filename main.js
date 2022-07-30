@@ -35,6 +35,48 @@ let camera_y = 0;
 //星の実体
 let star = [];
 
+//ファイル読み込み
+let spriteImage = new Image();
+spriteImage.src = "sprite.png";
+
+class Sprite
+{
+  constructor(x,y,w,h)
+  {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+  }
+}
+
+//スプライト
+let sprite = [
+  new Sprite( 0, 0, 22, 42 ),
+  new Sprite( 23, 0, 33, 42 ),
+  new Sprite( 57, 0, 43, 42 ),
+  new Sprite( 101, 0, 33, 42 ),
+  new Sprite( 135, 0, 21, 42 ),
+];
+
+//スプライト描画
+function drawSprite(num, x, y)
+{
+  let sx = sprite[num].x;
+  let sy = sprite[num].y;
+  let sw = sprite[num].w;
+  let sh = sprite[num].h;
+
+  let px = (x>>8) - sw/2;
+  let py = (y>>8) - sh/2;
+
+  if(px+sw/2 <camera_x || px-sw/2 >=camera_x + SCREEN_W
+    || py+sh/2 <camera_y || py-sh/2 >=camera_y + SCREEN_H)return;
+
+
+  vcon.drawImage(spriteImage,sx,sy,sw,sh,px,py,sw,sh);
+}
+
 //整数のランダムを作る
 function rand(min, max)
 {
@@ -100,6 +142,8 @@ function gameLoop()
   vcon.fillRect(0,0,SCREEN_W,SCREEN_H);
 
   for(let i = 0;i<STAR_MAX; i++)star[i].draw();
+
+  drawSprite(2, 0<<8, 0<<8);
 
   //キャンバスにコピー
   con.drawImage( vcan, camera_x,camera_y,SCREEN_W,SCREEN_H,
