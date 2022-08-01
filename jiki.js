@@ -7,11 +7,32 @@ class Tama extends CharaBase
   constructor(x,y,vx,vy)
   {
     super(5,x,y,vx,vy);
+    //this.w = 4;
+    //this.h = 6;
+    this.r = 4;
   }
 
   update()
   {
     super.update();
+
+    for(let i=0; i<teki.length ;i++)
+    {
+      if(!teki[i].kill)
+      {
+        if (checkHit(
+          this.x, this.y, this.r,
+          teki[i].x, teki[i].y, teki[i].r
+
+
+        ))
+        {
+          teki[i].kill = true;
+          this.kill=true;
+          break;
+        }
+      }
+    }
   }
 
   draw()
@@ -39,11 +60,12 @@ class Jiki
   {
     if(key['Space'] && this.reload == 0)
     {
-      tama.push(new Tama(this.x+(4<<8), this.y-(10<<8), 0,-2000));
-      tama.push(new Tama(this.x-(4<<8), this.y-(10<<8), 0,-2000));
-      tama.push(new Tama(this.x+(8<<8), this.y-(10<<8), 80,-2000));
-      tama.push(new Tama(this.x-(8<<8), this.y-(10<<8), -80,-2000));
+      // tama.push(new Tama(this.x+(4<<8), this.y-(10<<8), 0,-2000));
+      // tama.push(new Tama(this.x-(4<<8), this.y-(10<<8), 0,-2000));
+      // tama.push(new Tama(this.x+(8<<8), this.y-(10<<8), 80,-2000));
+      // tama.push(new Tama(this.x-(8<<8), this.y-(10<<8), -80,-2000));
 
+      tama.push(new Tama(this.x+(0<<8), this.y-(10<<8), 0,-1300));
 
       this.reload=4;
       if(++this.relo2 ==4)
