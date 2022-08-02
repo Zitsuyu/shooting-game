@@ -13,10 +13,11 @@ class Teta extends CharaBase
   {
     super.update()
 
-    if (!jiki.damage && checkHit(this.x, this.y, this.r, jiki.x, jiki.y, jiki.r))
+    if (!jiki.muteki && checkHit(this.x, this.y, this.r, jiki.x, jiki.y, jiki.r))
     {
       this.kill   = true;
       jiki.damage = 10;
+      jiki.muteki = 60;
     }
   }
 }
@@ -63,10 +64,11 @@ class Teki extends CharaBase
 
     if(this.flag && this.vy>-800) this.vy -=30;
 
-    if (!jiki.damage && checkHit(this.x, this.y, this.r, jiki.x, jiki.y, jiki.r))
+    if (!jiki.muteki && checkHit(this.x, this.y, this.r, jiki.x, jiki.y, jiki.r))
     {
       this.kill   = true;
       jiki.damage = 10;
+      jiki.muteki = 60;
     }
   }
 
