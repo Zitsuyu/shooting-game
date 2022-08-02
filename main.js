@@ -57,6 +57,7 @@ let key = [];
 let teki =[];
 let teta =[];
 let tama = [];
+let expl = [];
 let jiki = new Jiki();
 
 
@@ -96,13 +97,14 @@ function updateAll()
   updateObj(tama);
   updateObj(teta);
   updateObj(teki);
+  updateObj(expl);
   jiki.update();
 }
 
 //描画の処理
 function drawAll()
 {
-  vcon.fillStyle="black";
+  vcon.fillStyle=(jiki.damage)?"red":"black";
   vcon.fillRect(camera_x,camera_y,SCREEN_W,SCREEN_H);
 
   drawObj(star);
@@ -110,6 +112,8 @@ function drawAll()
   jiki.draw();
   drawObj(teta);
   drawObj(teki);
+  drawObj(expl);
+  
 
   //自機の範囲 0 ~ FIELD_W
   //カメラの範囲0 ~ FIELD_W -SCREEN_W

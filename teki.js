@@ -3,7 +3,22 @@
 //敵弾クラス
 class Teta extends CharaBase
 {
-  
+  constructor(sn,x,y,vx,vy)
+  {
+    super(sn,x,y,vx,vy);
+    this.r = 4;
+  }
+
+  update()
+  {
+    super.update()
+
+    if (!jiki.damage && checkHit(this.x, this.y, this.r, jiki.x, jiki.y, jiki.r))
+    {
+      this.kill   = true;
+      jiki.damage = 10;
+    }
+  }
 }
 
 //敵クラス
@@ -31,7 +46,7 @@ class Teki extends CharaBase
       if( jiki.x<this.x && this.vx<400 )this.vx += 30;
       else if( jiki.x>this.x && this.vx>-400) this.vx -= 30;
     }
-    if( Math.abs( jiki.y - this.y)<(100<<8) )
+    if( Math.abs( jiki.y - this.y)<(100<<8) && !this.flag)
     {
       this.flag = true;
 
@@ -47,6 +62,12 @@ class Teki extends CharaBase
     }
 
     if(this.flag && this.vy>-800) this.vy -=30;
+
+    if (!jiki.damage && checkHit(this.x, this.y, this.r, jiki.x, jiki.y, jiki.r))
+    {
+      this.kill   = true;
+      jiki.damage = 10;
+    }
   }
 
   draw()
