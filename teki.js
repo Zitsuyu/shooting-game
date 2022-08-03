@@ -13,14 +13,20 @@ class Teta extends CharaBase
   {
     super.update()
 
-    
-
-    if (!jiki.muteki && checkHit(this.x, this.y, this.r, jiki.x, jiki.y, jiki.r))
+    if (!gameOver && !jiki.muteki && checkHit(this.x, this.y, this.r, jiki.x, jiki.y, jiki.r))
     {
       this.kill   = true;
-      jiki.damage = 10;
-      jiki.muteki = 60;
+      if((jiki.hp -= 30)<=0)
+      {
+        gameOver = true;
+      }
+      else
+      {
+        jiki.damage = 10;
+        jiki.muteki = 60;
+      }
     }
+    
     this.sn = 14 + (this.count>>3&1)
   }
   
@@ -48,11 +54,18 @@ class Teki extends CharaBase
     tekiFunc[this.tnum](this);
     
     //当たり判定
-    if (!jiki.muteki && checkHit(this.x, this.y, this.r, jiki.x, jiki.y, jiki.r))
+    if (!gameOver && !jiki.muteki && checkHit(this.x, this.y, this.r, jiki.x, jiki.y, jiki.r))
     {
       this.kill   = true;
-      jiki.damage = 10;
-      jiki.muteki = 60;
+      if((jiki.hp -= 30)<=0)
+      {
+        gameOver = true;
+      }
+      else
+      {
+        jiki.damage = 10;
+        jiki.muteki = 60;
+      }
     }
   }
 
