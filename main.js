@@ -169,6 +169,7 @@ function putInfo()
     con.fillText("X:"+(jiki.x>>8),20,120);
     con.fillText("Y:"+(jiki.y>>8),20,140);
     con.fillText("HP:"+jiki.hp,20,160);
+    con.fillText("SCORE:"+score,20,180);
     
   }
 

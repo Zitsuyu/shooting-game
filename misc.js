@@ -112,6 +112,16 @@ function explosion(x,y,vx,vy)
 document.addEventListener('keydown',function(e)
 {
   key[ e.code ] = true;
+  if (gameOver && e.code =='KeyR')
+  {
+    delete jiki;
+    jiki = new Jiki();
+    gameOver = false;
+    score = 0;
+    
+  }
+
+
 });
 
 //キーボードが離れたとき

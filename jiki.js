@@ -7,8 +7,7 @@ class Tama extends CharaBase
   constructor(x,y,vx,vy)
   {
     super(6,x,y,vx,vy);
-    //this.w = 4;
-    //this.h = 6;
+
     this.r = 4;
   }
 
@@ -23,18 +22,22 @@ class Tama extends CharaBase
         if (checkHit(
           this.x, this.y, this.r,
           teki[i].x, teki[i].y, teki[i].r
-
-
         ))
         {
-          teki[i].kill = true;
           this.kill=true;
 
-          explosion(
-            teki[i].x, teki[i].y,
-            teki[i].vx>>3, teki[i].vy>>3);
-
-
+          if((teki[i].hp -= 10)<=0)
+          {
+            teki[i].kill = true;
+            explosion(
+              teki[i].x, teki[i].y,
+              teki[i].vx>>3, teki[i].vy>>3);
+            score += teki[i].score;
+          }
+          else
+          {
+            expl.push(new Expl(0,teki[i].x,teki[i].y,0,0));
+          }
           break;
         }
       }

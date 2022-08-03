@@ -35,14 +35,14 @@ class Teta extends CharaBase
 //敵クラス
 class Teki extends CharaBase
 {
-  constructor(tnum,x,y,vx,vy)
+  constructor(t,x,y,vx,vy)
   {
     super(0,x,y,vx,vy);
-    this.flag = false;
-    //this.w = 20;
-    //this.h = 20;
-    this.r = 10;
-    this.tnum = tnum;
+    this.tnum  = tekiMaster[t].tnum;
+    this.r     = tekiMaster[t].r;
+    this.hp    = tekiMaster[t].hp;
+    this.score = tekiMaster[t].score;
+    this.flag  = false;
   }
 
   update()
@@ -70,9 +70,10 @@ class Teki extends CharaBase
   }
 
 }
-
+//弾を自機に向けて発射する
 function tekiShot(obj,speed)
 {
+  if(gameOver)return;
   let an,dx,dy;
     an = Math.atan2( jiki.y - obj.y, jiki.x - obj.x);
     dx = Math.cos(an)*speed;
