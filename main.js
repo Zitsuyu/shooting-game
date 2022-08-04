@@ -211,10 +211,15 @@ let gameCount = 0;
 let gameWave = 0;
 let gameRound = 0;
 
+let starSpeed = 100;
+let starSpeedReq =100;
+
 //ゲームループ
 function gameLoop()
 {
   gameCount++;
+  if(starSpeedReq>starSpeed)starSpeed++;
+  if(starSpeedReq<starSpeed)starSpeed--;
   
   if(gameWave == 0)
   {
@@ -226,6 +231,7 @@ function gameLoop()
     {
       gameWave++;
       gameCount=0;
+      starSpeedReq = 200;
     }
   }
   else if(gameWave == 1)
@@ -238,6 +244,7 @@ function gameLoop()
     {
       gameWave++;
       gameCount=0;
+      starSpeedReq = 100;
     }
   }
   else if(gameWave == 2)
@@ -252,6 +259,7 @@ function gameLoop()
       gameWave++;
       gameCount=0;
       teki.push(new Teki(2, (FIELD_W/2)<<8, -(70<<8), 0, 200 ));
+      starSpeedReq = 600;
     }
   }
   else if(gameWave == 3)
@@ -261,7 +269,8 @@ function gameLoop()
     {
       gameWave=0;
       gameCount=0;
-      gameRount++;
+      gameRound++;
+      starSpeedReq = 100;
 
     }
   }
