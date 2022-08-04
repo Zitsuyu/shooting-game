@@ -36,7 +36,13 @@ class Tama extends CharaBase
           }
           else
           {
-            expl.push(new Expl(0,teki[i].x,teki[i].y,0,0));
+            expl.push(new Expl(0,this.x,this.y,0,0));
+          }
+
+          if(teki[i].mhp>=1000)
+          {
+            bossHP = teki[i].hp;
+            bossMHP = teki[i].mhp;
           }
           break;
         }
@@ -64,7 +70,7 @@ class Jiki
     this.anime  = 0;
     this.reload = 0;
     this.relo2  = 0;
-    this.r      = 10;
+    this.r      = 3;
     this.damage = 0;
     this.muteki = 0;
     this.count  = 0;
