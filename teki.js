@@ -88,6 +88,14 @@ class Teki extends CharaBase
 function tekiShot(obj,speed)
 {
   if(gameOver)return;
+  
+  let px = (obj.x>>8);
+  let py = (obj.y>>8);
+
+  if(px-40 <camera_x || px+40 >=camera_x + SCREEN_W
+    || py-40 <camera_y || py+40 >=camera_y + SCREEN_H)return;
+
+
   let an,dx,dy;
     an = Math.atan2( jiki.y - obj.y, jiki.x - obj.x);
     dx = Math.cos(an)*speed;

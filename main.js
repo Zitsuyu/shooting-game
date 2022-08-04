@@ -1,5 +1,5 @@
 //デバッグのフラグ
-const DEBUG = true;
+const DEBUG = false;
 
 let drawCount = 0;
 let fps = 0;
@@ -43,6 +43,7 @@ let vcan = document.createElement("canvas")
 let vcon = vcan.getContext("2d");
 vcan.width  = FIELD_W;
 vcan.height = FIELD_H;
+vcon.font="12px 'Impact'";
 
 //カメラの座標
 let camera_x = 0;
@@ -126,8 +127,8 @@ function drawAll()
   //自機の範囲 0 ~ FIELD_W
   //カメラの範囲0 ~ FIELD_W -SCREEN_W
 
-  camera_x = (jiki.x>>8)/FIELD_W * (FIELD_W-SCREEN_W);
-  camera_y = (jiki.y>>8)/FIELD_H * (FIELD_H-SCREEN_H);
+  camera_x = Math.floor((jiki.x>>8)/FIELD_W * (FIELD_W-SCREEN_W));
+  camera_y = Math.floor((jiki.y>>8)/FIELD_H * (FIELD_H-SCREEN_H));
 
   //ボスのHPを表示する
   if(bossHP>0)
@@ -141,10 +142,27 @@ function drawAll()
     vcon.strokeRect(camera_x+10,camera_y+10,sz2,10);
   }
 
+  //自機のHPを表示する
+  if(jiki.hp>0)
+  {
+    let sz = (SCREEN_W-20)*jiki.hp/jiki.mhp;
+    let sz2 =(SCREEN_W-20);
+
+    vcon.fillStyle="rgba(0,0,255,0.5)";
+    vcon.fillRect(camera_x+10,camera_y+SCREEN_H-14,sz,10);
+    vcon.strokeStyle="rgba(0,0,255,0.9)";
+    vcon.strokeRect(camera_x+10,camera_y+SCREEN_H-14,sz2,10);
+  }
+
+  //スコア表示
+  vcon.fillStyle = "white";
+  vcon.fillText("SCORE"+score, camera_x+10,camera_y+14);
+
   //キャンバスにコピー
   con.drawImage( vcan, camera_x,camera_y,SCREEN_W,SCREEN_H,
     0,0,CANVAS_W,CANVAS_H);
 }
+
 
 //情報の表示
 function putInfo()
@@ -189,17 +207,64 @@ function putInfo()
 
 }
 
+let gameCount = 0;
+let gameWave = 0;
+let gameRound = 0;
 
 //ゲームループ
 function gameLoop()
 {
-  //テスト的に敵を出す
+  gameCount++;
   
-  // if(rand(0,10)==1)
-  // {
-  //   let r = rand(0,1);
-  //   teki.push(new Teki(r,rand(r,FIELD_W)<<8,0, 0, rand(300,1200)));
-  // }
+  if(gameWave == 0)
+  {
+    if(rand(0,15)==1)
+    {
+      teki.push(new Teki(0,rand(0,FIELD_W)<<8,0, 0, rand(300,1200)));
+    }
+    if(gameCount > 60*20)
+    {
+      gameWave++;
+      gameCount=0;
+    }
+  }
+  else if(gameWave == 1)
+  {
+    if(rand(0,15)==1)
+    {
+      teki.push(new Teki(1,rand(0,FIELD_W)<<8,0, 0, rand(300,1200)));
+    }
+    if(gameCount > 60*20)
+    {
+      gameWave++;
+      gameCount=0;
+    }
+  }
+  else if(gameWave == 2)
+  {
+    if(rand(0,10)==1)
+    {
+      let r = rand(0,1);
+      teki.push(new Teki(r,rand(0,FIELD_W)<<8,0, 0, rand(300,1200)));
+    }
+    if(gameCount > 60*20)
+    {
+      gameWave++;
+      gameCount=0;
+      teki.push(new Teki(2, (FIELD_W/2)<<8, -(70<<8), 0, 200 ));
+    }
+  }
+  else if(gameWave == 3)
+  {
+    
+    if(teki.length == 0)
+    {
+      gameWave=0;
+      gameCount=0;
+      gameRount++;
+
+    }
+  }
   updateAll();
   drawAll();
   putInfo();
@@ -209,5 +274,5 @@ function gameLoop()
 window.onload=function()
 {
   gameInit();
-  teki.push(new Teki(2, (FIELD_W/2)<<8, 0, 0, 200 ));
+  //teki.push(new Teki(2, (FIELD_W/2)<<8, 0, 0, 200 ));
 }

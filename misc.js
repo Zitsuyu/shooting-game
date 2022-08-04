@@ -55,8 +55,8 @@ class CharaBase
     this.x +=this.vx;
     this.y +=this.vy;
 
-    if ( this.x<0 || this.x >FIELD_W<<8
-      || this.y<0 || this.y>FIELD_H<<8)this.kill = true;
+    if ( this.x+(100<<8)<0 || this.x-(100<<8) >FIELD_W<<8
+      || this.y+(100<<8)<0 || this.y-(100<<8)>FIELD_H<<8)this.kill = true;
     
   }
 
@@ -118,7 +118,7 @@ document.addEventListener('keydown',function(e)
     jiki = new Jiki();
     gameOver = false;
     score = 0;
-    
+
   }
 
 
